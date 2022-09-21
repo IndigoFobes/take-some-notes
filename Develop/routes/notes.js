@@ -54,6 +54,20 @@ notes.get('/:note_id', (req, res) => {
     });
 });
 
+// DELETE route for a specific note
+notes.delete('/:note_id', (req, res) => {
+    const noteId = req.params.note_id;
+    readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+        const result = json.filter((note) => note.note_id !== noteId);
+
+        writeToFile('./db/db.json', result);
+
+        res.json(`Note ${noteId} has been deleted.`);
+    });
+});
+
 // POST route for a new note
 notes.post('/', (req, res) => {
     console.log(req.body);
