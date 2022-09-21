@@ -1,6 +1,5 @@
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
-// const {readFromFile etc.}
 const fs = require('fs');
 const util = require('util');
 
@@ -37,5 +36,14 @@ const readAndAppend = (content, file) => {
 
 // GET route for retrieving all notes
 notes.get('/', (req, res) => {
-    fs.readFromFile()
-})
+    // read json from db.json file and return parsed data
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+});
+
+// GET route for a specific note
+// notes.get('/:note_id', (req, res) => {
+
+// })
+
+// Export notes router
+module.exports = notes;
