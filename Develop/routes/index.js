@@ -6,4 +6,6 @@ const notesRouter = require('./notes');
 // set express as a variable to use
 const app = express();
 
-// app.use('/tips')
+app.use('/notes', notesRouter);
+
+module.exports = app;
