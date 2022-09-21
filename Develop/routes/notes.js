@@ -42,9 +42,17 @@ notes.get('/', (req, res) => {
 });
 
 // GET route for a specific note
-// notes.get('/:note_id', (req, res) => {
-
-// });
+notes.get('/:note_id', (req, res) => {
+    const noteId = req.params.note_id;
+    readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+        const result = json.filter((note) => note.note_id === noteId);
+        return result.length > 0
+        ? res.json(result)
+        : res.json('There is no note with that ID.');
+    });
+});
 
 // POST route for a new note
 notes.post('/', (req, res) => {
@@ -57,7 +65,7 @@ notes.post('/', (req, res) => {
         const newNote = {
             title, 
             text,
-            tip_id: uuidv4(),
+            note_id: uuidv4(),
         };
 
         readAndAppend(newNote, './db/db.json');
