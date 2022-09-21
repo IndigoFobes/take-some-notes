@@ -35,15 +35,17 @@ const readAndAppend = (content, file) => {
 };
 
 // GET route for retrieving all notes
+    // Read json from db.json file and return parsed data
 notes.get('/', (req, res) => {
-    // read json from db.json file and return parsed data
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 // GET route for a specific note
 // notes.get('/:note_id', (req, res) => {
 
-// })
+// });
+
+// POST route for a new note
 
 // Export notes router
 module.exports = notes;
