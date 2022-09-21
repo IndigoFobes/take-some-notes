@@ -6,11 +6,16 @@
     {
         "title": "indigo",
         "text": "hello",
-        "tip_id": "76289144-bd76-49e4-ae43-af01d9768c10"
+        "note_id": "76289144-bd76-49e4-ae43-af01d9768c10"
     },
     {
         "title": "New note!",
         "text": "this is a new note",
         "note_id": "ed47ef4f-7979-4ac7-8cdd-7520e1c6932c"
+    },
+    {
+        "title": "hi there",
+        "text": "working on a great app!",
+        "note_id": "5834126c-8f42-4db8-9fae-df59b0dd4ffd"
     }
 ]
