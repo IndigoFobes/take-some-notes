@@ -36,7 +36,9 @@ const readAndAppend = (content, file) => {
 
 // GET route for retrieving all notes
     // Read json from db.json file and return parsed data
-notes.get('/', (req, res) => {
+notes.get('/api/notes', (req, res) => {
+    console.info(`${req.method} request received for notes`);
+
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
@@ -46,6 +48,7 @@ notes.get('/', (req, res) => {
 // });
 
 // POST route for a new note
+//notes.post('/api/notes')
 
 // Export notes router
 module.exports = notes;
