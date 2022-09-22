@@ -11,6 +11,9 @@
   - [Tests](#tests)
   - [Questions](#questions)
 
+  ![Screenshot](/images/note-taker-home.png)
+![Screenshot](/images/note-taker-notes.png)
+
   <a name="installation"></a>
   ## Installation 
 
