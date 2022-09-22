@@ -1,7 +1,6 @@
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-const util = require('util');
 
 // GET route for retrieving all notes
     // Read json from db.json file and return parsed data
@@ -9,7 +8,8 @@ notes.get('/', (req, res) => {
     console.info(`${req.method} request received for notes`);
     fs.readFile('./db/db.json', (err, data) => {
         if (err) {
-            throw err;
+            res.status(500);
+                return
         } else {
         res.json(JSON.parse(data));}
     })
@@ -20,16 +20,15 @@ notes.get('/:note_id', (req, res) => {
     const noteId = req.params.note_id;
     fs.readFile('./db/db.json', (err, data) => {
         if (err) {
-            throw err;
+            res.status(500);
+                return
         } 
-        return JSON.parse(data);
-    })
-    .then((json) => {
-        const result = json.filter((note) => note.note_id === noteId);
+        const parsedData = JSON.parse(data);
+        const result = parsedData.filter((note) => note.note_id === noteId);
         return result.length > 0
         ? res.json(result)
         : res.json('There is no note with that ID.');
-    });
+    })
 });
 
 // DELETE route for a specific note
@@ -37,21 +36,20 @@ notes.delete('/:note_id', (req, res) => {
     const noteId = req.params.note_id;
     fs.readFile('./db/db.json', (err, data) => {
         if (err) {
-            throw err;
+            res.status(500);
+                return
         }
-        JSON.parse(data);
-    })
-    .then((json) => {
-        const result = json.filter((note) => note.note_id !== noteId);
-
-        //writeToFile('./db/db.json', result);
-        fs.writeFile('./db/db.json', result, (err) => {
+        const parsedData = JSON.parse(data);
+        const result = parsedData.filter((note) => note.id !== noteId);
+        fs.writeFile('./db/db.json', JSON.stringify(result, null, '  '), (err) => {
             if (err) {
-                throw err;
+                res.status(500);
+                return
             }
             res.json(`Note ${noteId} has been deleted.`);
         })
-    });
+    })
+
 });
 
 // POST route for a new note
@@ -65,17 +63,18 @@ notes.post('/', (req, res) => {
         const newNote = {
             title, 
             text,
-            note_id: uuidv4(),
+            id: uuidv4(),
         };
-        //readAndAppend(newNote, './db/db.json');
-        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        //readAndAppend(newNote, './db/db.json'); TODO!
+        fs.readFile('./db/db.json', (err, data) => {
             if (err) {
-                throw err
+                res.status(500);
+                return
             }
-            JSON.parse(data);
-        })
-        .then((json) => {
-            fs.writeFile('./db/db.json', json, (err) => {
+            const parsedData = JSON.parse(data);
+            parsedData.push(newNote);
+            console.log(parsedData);
+            fs.writeFile('./db/db.json', JSON.stringify(parsedData, null, '  '), (err) => {
                 if (err) {
                     console.error('There was an error adding your note!')
                 }
